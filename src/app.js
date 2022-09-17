@@ -10,7 +10,7 @@ function App() {
 		setUsere(user.filter(item => item._id !== userId))
 	}
 
-	const handleToggleBooksmark = id => {
+	const handleToggleonBookmark = id => {
 		setUsere(
 			user.map(item => {
 				if (item._id === id) {
@@ -27,7 +27,7 @@ function App() {
 				users={user}
 				length={user.length}
 				onDelete={handleDelete}
-				onBookSmaark={handleToggleBooksmark}
+				onBookmark={handleToggleonBookmark}
 			/>
 		</div>
 	)

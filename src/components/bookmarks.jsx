@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Booksmark = ({ status, id, onBookSmaark }) => {
+const Bookmark = ({ status, id, onBookmark }) => {
 	return (
-		<button onClick={() => onBookSmaark(id)}>
+		<button onClick={() => onBookmark(id)}>
 			{status ? (
 				<i className="bi bi-bookmark-star-fill"></i>
 			) : (
@@ -12,4 +12,4 @@ const Booksmark = ({ status, id, onBookSmaark }) => {
 	)
 }
 
-export default Booksmark
+export default Bookmark

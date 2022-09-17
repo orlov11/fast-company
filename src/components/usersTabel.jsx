@@ -1,7 +1,7 @@
 import React from 'react'
 import User from './user'
 
-const Users = ({ users, onDelete, onBookSmaark, length }) => {
+const Users = ({ users, onDelete, onBookmark, length }) => {
 	return (
 		length > 0 && (
 			<table className="table">
@@ -18,7 +18,7 @@ const Users = ({ users, onDelete, onBookSmaark, length }) => {
 					</tr>
 				</thead>
 				<tbody>
-					<User users={users} onDelete={onDelete} onBookSmaark={onBookSmaark} />
+					<User users={users} onDelete={onDelete} onBookmark={onBookmark} />
 				</tbody>
 			</table>
 		)

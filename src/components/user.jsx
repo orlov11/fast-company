@@ -2,7 +2,7 @@ import React from 'react'
 import Booksmark from './bookmarks'
 import Quaities from './quaities'
 
-const User = ({ users, onDelete, onBookSmaark }) => {
+const User = ({ users, onDelete, onBookmark }) => {
 	return users.map((item, i) => (
 		<tr key={item._id}>
 			<th scope="row">{i + 1}</th>
@@ -14,11 +14,7 @@ const User = ({ users, onDelete, onBookSmaark }) => {
 			<td>{item.completedMeetings}</td>
 			<td>{item.rate}/5</td>
 			<td>
-				<Booksmark
-					status={item.status}
-					id={item._id}
-					onBookSmaark={onBookSmaark}
-				/>
+				<Booksmark status={item.status} id={item._id} onBookmark={onBookmark} />
 			</td>
 			<td>
 				<button
