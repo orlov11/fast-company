@@ -17,7 +17,7 @@ function App() {
 					item.status = !item.status
 				}
 				return item
-			}),
+			})
 		)
 	}
 	return (

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const SearhStatus = ({ length }) => {
 	const randerPhrase = () => {
@@ -29,6 +30,10 @@ const SearhStatus = ({ length }) => {
 	) : (
 		randerPhrase()
 	)
+}
+
+SearhStatus.propTypes = {
+	length: PropTypes.number.isRequired
 }
 
 export default SearhStatus

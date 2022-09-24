@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const Bookmark = ({ status, id, onBookmark }) => {
 	return (
@@ -10,6 +11,12 @@ const Bookmark = ({ status, id, onBookmark }) => {
 			)}
 		</button>
 	)
+}
+
+Bookmark.propTypes = {
+	status: PropTypes.bool,
+	id: PropTypes.string.isRequired,
+	onBookmark: PropTypes.func.isRequired
 }
 
 export default Bookmark
