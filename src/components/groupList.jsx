@@ -1,10 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { isArray } from 'lodash'
 
 const ListGroup = ({ items, valueProperty, contentProperty, onProfessionSelect, selectedItem }) => {
-	return (
-		<ul className="list-group">
-			{Object.keys(items).map(item => (
+	const renderFilter = () => {
+		if (isArray(items)) {
+			return items.map(arr => (
+				<li
+					key={arr[valueProperty]}
+					className={'list-group-item' + (selectedItem === arr ? ' active' : '')}
+					onClick={() => onProfessionSelect(arr)}
+				>
+					{arr[contentProperty]}
+				</li>
+			))
+		} else {
+			Object.keys(items).map(item => (
 				<li
 					key={items[item][valueProperty]}
 					className={'list-group-item' + (selectedItem === items[item] ? ' active' : '')}
@@ -12,9 +23,10 @@ const ListGroup = ({ items, valueProperty, contentProperty, onProfessionSelect, 
 				>
 					{items[item][contentProperty]}
 				</li>
-			))}
-		</ul>
-	)
+			))
+		}
+	}
+	return <ul className="list-group">{renderFilter()}</ul>
 }
 ListGroup.defaultProps = {
 	valueProperty: '_id',

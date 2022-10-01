@@ -6,6 +6,7 @@ import { paginate } from '../utils/paginate'
 import PropTypes from 'prop-types'
 import ListGroup from './groupList'
 import SearhStatus from './searchStatus'
+import _ from 'lodash'
 
 const Users = ({ users, onDelete, onBookmark, length }) => {
 	const pageSize = 4
@@ -21,25 +22,24 @@ const Users = ({ users, onDelete, onBookmark, length }) => {
 	useEffect(() => {
 		setCurrentPage(1)
 	}, [selectedProf])
-	const filterUsers = selectedProf ? users.filter(user => user.profession === selectedProf) : users
-	const count = filterUsers.length
-	const userCrop = paginate(filterUsers, currentPage, pageSize)
 
 	useEffect(() => {
 		API.professions.fetchAll().then(date => setProfession(date))
 	}, [])
+
+	const filterUsers = selectedProf ? users.filter(user => _.isEqual(user.profession, selectedProf)) : users
+	const count = filterUsers.length
+	const userCrop = paginate(filterUsers, currentPage, pageSize)
+
 	const clearFilter = params => {
 		setSelectedProf()
 	}
+
 	return (
 		<div className="d-flex ">
 			{profession && (
 				<div className="d-flex flex-column flex-shrink-0 p-3">
-					<ListGroup
-						selectedItem={selectedProf}
-						items={profession}
-						onProfessionSelect={handleProfessionSelect}
-					/>
+					<ListGroup selectedItem={selectedProf} items={profession} onProfessionSelect={handleProfessionSelect} />
 					<button className="btn btn-secondary mt-2" onClick={clearFilter}>
 						Очистить
 					</button>
@@ -66,12 +66,7 @@ const Users = ({ users, onDelete, onBookmark, length }) => {
 					</table>
 				)}
 				<div className="d-flex justify-content-center">
-					<Pagination
-						itemCount={count}
-						currentPage={currentPage}
-						pageSize={pageSize}
-						onPageChange={handlePageChange}
-					/>
+					<Pagination itemCount={count} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange} />
 				</div>
 			</div>
 		</div>
