@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import SearhStatus from './components/searchStatus'
 import Users from './components/usersTabel'
 import API from './API'
 
@@ -22,7 +21,6 @@ function App() {
 	}
 	return (
 		<div>
-			<SearhStatus length={user.length} />
 			<Users
 				users={user}
 				length={user.length}

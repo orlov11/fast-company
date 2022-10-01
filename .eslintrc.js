@@ -15,7 +15,10 @@ module.exports = {
 	rules: {
 		indent: ['error', 'tab'],
 		quotes: ['error', 'single', { allowTemplateLiterals: true }],
-		'space-before-function-paren': ['error', 'never'],
+		'space-before-function-paren': [
+			'error',
+			{ anonymous: 'always', named: 'never' }
+		],
 		'multiline-ternary': ['error', 'never'],
 		'no-tabs': ['error', { allowIndentationTabs: true }]
 	}
