@@ -12,7 +12,7 @@ const Users = () => {
 	const [profession, setProfession] = useState()
 	const [currentPage, setCurrentPage] = useState(1)
 	const [selectedProf, setSelectedProf] = useState()
-	const [sortBy, setSortBy] = useState({ itter: 'name', order: 'asc' })
+	const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
 	const [user, setUsere] = useState()
 	useEffect(() => {
 		API.users.fetchAll().then(date => setUsere(date))
