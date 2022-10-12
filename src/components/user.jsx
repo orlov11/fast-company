@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 const User = ({ users, onDelete, onBookmark }) => {
 	return users.map((item, i) => (
 		<tr key={item._id}>
-			<th scope="row">{i + 1}</th>
 			<td>{item.name}</td>
 			{item.qualities.map(quali => (
 				<Quaities {...quali} key={quali._id} />
@@ -18,11 +17,7 @@ const User = ({ users, onDelete, onBookmark }) => {
 				<Booksmark status={item.status} id={item._id} onBookmark={onBookmark} />
 			</td>
 			<td>
-				<button
-					type="button"
-					className="btn btn-danger"
-					onClick={() => onDelete(item._id)}
-				>
+				<button type="button" className="btn btn-danger" onClick={() => onDelete(item._id)}>
 					Delete
 				</button>
 			</td>
