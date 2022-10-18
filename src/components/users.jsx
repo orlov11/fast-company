@@ -5,9 +5,13 @@ import { paginate } from '../utils/paginate'
 import ListGroup from './groupList'
 import SearhStatus from './searchStatus'
 import UserTabel from './userTable'
+import UserPage from './userPage'
+import { useParams } from 'react-router-dom'
+
 import _ from 'lodash'
 
 const Users = () => {
+	const { userId } = useParams()
 	const pageSize = 4
 	const [profession, setProfession] = useState()
 	const [currentPage, setCurrentPage] = useState(1)
@@ -60,31 +64,37 @@ const Users = () => {
 		}
 
 		return (
-			<div className="d-flex ">
-				{profession && (
-					<div className="d-flex flex-column flex-shrink-0 p-3">
-						<ListGroup selectedItem={selectedProf} items={profession} onProfessionSelect={handleProfessionSelect} />
-						<button className="btn btn-secondary mt-2" onClick={clearFilter}>
-							Очистить
-						</button>
+			<>
+				{userId ? (
+					<UserPage />
+				) : (
+					<div className="d-flex ">
+						{profession && (
+							<div className="d-flex flex-column flex-shrink-0 p-3">
+								<ListGroup selectedItem={selectedProf} items={profession} onProfessionSelect={handleProfessionSelect} />
+								<button className="btn btn-secondary mt-2" onClick={clearFilter}>
+									Очистить
+								</button>
+							</div>
+						)}
+						<div className="d-flex flex-column w-100 ">
+							<SearhStatus length={count} />
+							{count > 0 && (
+								<UserTabel
+									user={userCrop}
+									onDelete={handleDelete}
+									onBookmark={handleToggleonBookmark}
+									onSort={handelSort}
+									selectedSort={sortBy}
+								/>
+							)}
+							<div className="d-flex justify-content-center">
+								<Pagination itemCount={count} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange} />
+							</div>
+						</div>
 					</div>
 				)}
-				<div className="d-flex flex-column w-100 ">
-					<SearhStatus length={count} />
-					{count > 0 && (
-						<UserTabel
-							user={userCrop}
-							onDelete={handleDelete}
-							onBookmark={handleToggleonBookmark}
-							onSort={handelSort}
-							selectedSort={sortBy}
-						/>
-					)}
-					<div className="d-flex justify-content-center">
-						<Pagination itemCount={count} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange} />
-					</div>
-				</div>
-			</div>
+			</>
 		)
 	}
 	return ' Loading...'
