@@ -13,12 +13,9 @@ module.exports = {
 	},
 	plugins: ['react'],
 	rules: {
-		indent: ['error', 'tab'],
+		indent: ['error', 'tab', { SwitchCase: 1 }],
 		quotes: ['error', 'single', { allowTemplateLiterals: true }],
-		'space-before-function-paren': [
-			'error',
-			{ anonymous: 'always', named: 'never' }
-		],
+		'space-before-function-paren': ['error', { anonymous: 'always', named: 'never' }],
 		'multiline-ternary': ['error', 'never'],
 		'no-tabs': ['error', { allowIndentationTabs: true }]
 	}
