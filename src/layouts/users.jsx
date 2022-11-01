@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import API from '../API'
-import Pagination from '../components/pagination'
-import TextField from '../components/textField'
+import Pagination from '../components/common/pagination'
 import { paginate } from '../utils/paginate'
-import ListGroup from '../components/groupList'
-import SearhStatus from '../components/searchStatus'
-import UserTabel from '../components/userTable'
+import TextField from '../components/ui/form/textField'
+import ListGroup from '../components/common/groupList'
+import SearhStatus from '../components/ui/searchStatus'
+import UserTabel from '../components/ui/userTable'
 import UserPage from '../components/userPage'
 import { useParams } from 'react-router-dom'
 
@@ -60,7 +60,9 @@ const Users = () => {
 		if (selectedProf) {
 			return user.filter(user => _.isEqual(user.profession, selectedProf))
 		} else if (search) {
-			return user.filter(user => user.name.split(' ').join('').toLowerCase().includes(search.toLowerCase()))
+			return user.filter(user =>
+				user.name.split(' ').join('').toLowerCase().includes(search.toLowerCase())
+			)
 		} else {
 			return user
 		}
@@ -88,7 +90,11 @@ const Users = () => {
 					<div className="d-flex ">
 						{profession && (
 							<div className="d-flex flex-column flex-shrink-0 p-3">
-								<ListGroup selectedItem={selectedProf} items={profession} onProfessionSelect={handleProfessionSelect} />
+								<ListGroup
+									selectedItem={selectedProf}
+									items={profession}
+									onProfessionSelect={handleProfessionSelect}
+								/>
 								<button className="btn btn-secondary mt-2" onClick={clearFilter}>
 									Очистить
 								</button>
@@ -96,13 +102,29 @@ const Users = () => {
 						)}
 						<div className="d-flex flex-column w-100 ">
 							<SearhStatus length={count} />
-							<TextField label="Search" name="search" value={search} onChange={handleSearch} />
+							<TextField
+								label="Search"
+								name="search"
+								value={search}
+								onChange={handleSearch}
+							/>
 
 							{count > 0 && (
-								<UserTabel user={userCrop} onDelete={handleDelete} onBookmark={handleToggleonBookmark} onSort={handelSort} selectedSort={sortBy} />
+								<UserTabel
+									user={userCrop}
+									onDelete={handleDelete}
+									onBookmark={handleToggleonBookmark}
+									onSort={handelSort}
+									selectedSort={sortBy}
+								/>
 							)}
 							<div className="d-flex justify-content-center">
-								<Pagination itemCount={count} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange} />
+								<Pagination
+									itemCount={count}
+									currentPage={currentPage}
+									pageSize={pageSize}
+									onPageChange={handlePageChange}
+								/>
 							</div>
 						</div>
 					</div>

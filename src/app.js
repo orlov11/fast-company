@@ -2,8 +2,8 @@ import React from 'react'
 import Users from './layouts/users'
 import Main from './layouts/main'
 import Login from './layouts/login'
-import NavBar from './components/navBar'
-import UserPage from './components/userPage'
+import NavBar from './components/ui/navBar'
+import UserPage from './components/userPage/userPage'
 import { Route, Switch } from 'react-router-dom'
 
 function App() {

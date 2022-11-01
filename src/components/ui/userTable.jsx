@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Bookmark from './bookmarks'
-import QualitiesList from './qualitiesList'
-import Table from './table'
+import Bookmark from '../common/bookmarks'
+import Table from '../common/table'
+import Quaities from './quaities'
 
 const UserTable = ({ user, onDelete, onBookmark, onSort, selectedSort }) => {
 	const columns = {
 		name: { path: 'name', name: 'Имя' },
-		qualities: { name: 'Качества', component: user => <QualitiesList qualities={user.qualities} /> },
+		qualities: {
+			name: 'Качества',
+			component: user => <Quaities qualities={user.qualities} />
+		},
 		profession: {
 			path: 'profession.name',
 			name: 'Проффесия'
@@ -17,11 +20,16 @@ const UserTable = ({ user, onDelete, onBookmark, onSort, selectedSort }) => {
 		bookmark: {
 			path: 'bookmark',
 			name: 'Избранное',
-			component: user => <Bookmark status={user.status} id={user._id} onBookmark={onBookmark} />
+			component: user => (
+				<Bookmark status={user.status} id={user._id} onBookmark={onBookmark} />
+			)
 		},
 		delete: {
 			component: user => (
-				<button type="button" className="btn btn-danger" onClick={() => onDelete(user._id)}>
+				<button
+					type="button"
+					className="btn btn-danger"
+					onClick={() => onDelete(user._id)}>
 					Delete
 				</button>
 			)

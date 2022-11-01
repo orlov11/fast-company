@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import QualitiesList from './qualitiesList'
+import QualitiesList from '../ui/quaities/qualitiesList'
 
-import API from '../API'
+import API from '../../API'
 
 const UserPage = () => {
 	const history = useHistory()

@@ -24,8 +24,15 @@ const TextField = ({ label, name, type, value, onChange, error }) => {
 					className={inputControl()}
 				/>
 				{type === 'password' && (
-					<button className="btn btn-outline-secondary" type="button" onClick={togglgeShowPassword}>
-						{showPassword ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
+					<button
+						className="btn btn-outline-secondary"
+						type="button"
+						onClick={togglgeShowPassword}>
+						{showPassword ? (
+							<i className="bi bi-eye"></i>
+						) : (
+							<i className="bi bi-eye-slash"></i>
+						)}
 					</button>
 				)}
 				{error && <div className="invalid-feedback">{error}</div>}
