@@ -21,7 +21,6 @@ const SelectedField = ({
 			? Object.values(option)
 			: option
 
-	console.log(value)
 	return (
 		<div className="mb-4">
 			<label htmlFor={name}>{label}</label>

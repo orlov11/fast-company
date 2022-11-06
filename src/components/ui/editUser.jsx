@@ -40,7 +40,6 @@ const EditUser = () => {
 	}, [user])
 	const handleChange = target => {
 		setData(prevState => ({ ...prevState, [target.name]: target.value }))
-		console.log(data)
 	}
 
 	useEffect(() => {
