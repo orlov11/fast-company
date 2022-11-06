@@ -4,8 +4,13 @@ export function validator(data, config) {
 	function validate(validateMethod, data, config) {
 		switch (validateMethod) {
 			case 'isRequired':
-				statusValidate = data.trim() === ''
+				if (typeof data === 'boolean') {
+					statusValidate = !data
+				} else {
+					statusValidate = data.trim() === ''
+				}
 				break
+
 			case 'isEmail':
 				statusValidate = !/^\S+@\S+\.\S+$/g.test(data)
 				break
@@ -25,7 +30,11 @@ export function validator(data, config) {
 	}
 	for (const feildName in data) {
 		for (const validateMethod in config[feildName]) {
-			const error = validate(validateMethod, data[feildName], config[feildName][validateMethod])
+			const error = validate(
+				validateMethod,
+				data[feildName],
+				config[feildName][validateMethod]
+			)
 			if (error && !errors[feildName]) {
 				errors[feildName] = error
 			}

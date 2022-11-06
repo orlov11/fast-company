@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import TextField from './form/textField'
 import { validator } from '../../utils/validator'
+import CheckBoxField from './form/checkBoxField'
 
 const LoginForm = () => {
-	const [data, setData] = useState({ email: '', password: '' })
+	const [data, setData] = useState({ email: '', password: '', stayOn: false })
 	const [errors, setErrors] = useState({})
-	const handleChange = ({ target }) => {
+	const handleChange = target => {
 		setData(prevState => ({ ...prevState, [target.name]: target.value }))
 		console.log(data)
 	}
@@ -21,7 +22,10 @@ const LoginForm = () => {
 				messege: 'Пароль должен содержать хотя бы одну заглвную букву'
 			},
 			isFigure: { messege: 'Пароль должен содержать хотя бы одну цифру' },
-			isLength: { messege: 'Пароль должен быть длиннее 8-ми символов', value: 8 }
+			isLength: {
+				messege: 'Пароль должен быть длиннее 8-ми символов',
+				value: 8
+			}
 		}
 	}
 
@@ -44,35 +48,34 @@ const LoginForm = () => {
 	}
 
 	return (
-		<div className="container mt-5">
-			<div className="row">
-				<div className="col-md-6 offset-md-3 shadow p-4">
-					{' '}
-					<form onSubmit={handleSubmit}>
-						<TextField
-							label="Email"
-							name="email"
-							value={data.email}
-							onChange={handleChange}
-							error={errors.email}
-						/>
-						<TextField
-							label="Password"
-							type="password"
-							name="password"
-							target
-							value={data.password}
-							onChange={handleChange}
-							error={errors.password}
-						/>
+		<form onSubmit={handleSubmit}>
+			<TextField
+				label="Email"
+				name="email"
+				value={data.email}
+				onChange={handleChange}
+				error={errors.email}
+			/>
+			<TextField
+				label="Password"
+				type="password"
+				name="password"
+				target
+				value={data.password}
+				onChange={handleChange}
+				error={errors.password}
+			/>
+			<CheckBoxField
+				value={data.stayOn}
+				name="stayOn"
+				onChange={handleChange}>
+				Запомнить меня
+			</CheckBoxField>
 
-						<button className="btn btn-dark w-100 mx-auto" disabled={!isValid}>
-							Login
-						</button>
-					</form>
-				</div>
-			</div>
-		</div>
+			<button className="btn btn-dark w-100 mx-auto" disabled={!isValid}>
+				Login
+			</button>
+		</form>
 	)
 }
 

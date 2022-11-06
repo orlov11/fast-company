@@ -6,9 +6,8 @@ import TextField from '../components/ui/form/textField'
 import ListGroup from '../components/common/groupList'
 import SearhStatus from '../components/ui/searchStatus'
 import UserTabel from '../components/ui/userTable'
-import UserPage from '../components/userPage'
 import { useParams } from 'react-router-dom'
-
+import UserPage from '../components/page/userPage'
 import _ from 'lodash'
 
 const Users = () => {
@@ -44,7 +43,7 @@ const Users = () => {
 		setSelectedProf(item)
 		setSearch('')
 	}
-	const handleSearch = ({ target }) => {
+	const handleSearch = target => {
 		setSearch(target.value)
 		setSelectedProf()
 	}
@@ -53,7 +52,13 @@ const Users = () => {
 	}, [selectedProf])
 
 	useEffect(() => {
-		API.professions.fetchAll().then(date => setProfession(date))
+		API.professions.fetchAll().then(data => {
+			const professionsList = Object.keys(data).map(professionName => ({
+				name: data[professionName].name,
+				_id: data[professionName]._id
+			}))
+			setProfession(professionsList)
+		})
 	}, [])
 
 	const filterUser = () => {
@@ -61,7 +66,11 @@ const Users = () => {
 			return user.filter(user => _.isEqual(user.profession, selectedProf))
 		} else if (search) {
 			return user.filter(user =>
-				user.name.split(' ').join('').toLowerCase().includes(search.toLowerCase())
+				user.name
+					.split(' ')
+					.join('')
+					.toLowerCase()
+					.includes(search.toLowerCase())
 			)
 		} else {
 			return user
@@ -76,6 +85,7 @@ const Users = () => {
 
 		const clearFilter = () => {
 			setSelectedProf()
+			setSearch('')
 		}
 
 		const handelSort = item => {
@@ -95,7 +105,9 @@ const Users = () => {
 									items={profession}
 									onProfessionSelect={handleProfessionSelect}
 								/>
-								<button className="btn btn-secondary mt-2" onClick={clearFilter}>
+								<button
+									className="btn btn-secondary mt-2"
+									onClick={clearFilter}>
 									Очистить
 								</button>
 							</div>

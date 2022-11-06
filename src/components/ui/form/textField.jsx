@@ -6,21 +6,26 @@ const TextField = ({ label, name, type, value, onChange, error }) => {
 	const inputControl = () => {
 		return 'form-control' + (error ? ' is-invalid' : '')
 	}
+	const handleChange = ({ target }) => {
+		onChange({ name: target.name, value: target.value })
+		console.log({ name: target.name, value: target.value })
+	}
 
 	const togglgeShowPassword = () => {
 		setShowPassword(prevState => !prevState)
 	}
 	return (
 		<div className="mb-4">
-			<label htmlFor={name}>{label}</label>{' '}
+			{name !== 'search' && <label htmlFor={name}>{label}</label>}
 			<div className="input-group has-validation">
 				<input
 					autoComplete="true"
+					placeholder={name === 'search' ? 'Search' : ''}
 					id={name}
 					type={showPassword ? 'text' : type}
 					name={name}
 					value={value}
-					onChange={onChange}
+					onChange={handleChange}
 					className={inputControl()}
 				/>
 				{type === 'password' && (

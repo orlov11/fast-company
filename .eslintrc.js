@@ -13,10 +13,15 @@ module.exports = {
 	},
 	plugins: ['react'],
 	rules: {
-		indent: ['error', 'tab', { SwitchCase: 1 }],
+		indent: 'off',
 		quotes: ['error', 'single', { allowTemplateLiterals: true }],
-		'space-before-function-paren': ['error', { anonymous: 'always', named: 'never' }],
+		'space-before-function-paren': [
+			'error',
+			{ anonymous: 'always', named: 'never' }
+		],
 		'multiline-ternary': 'off',
-		'no-tabs': ['error', { allowIndentationTabs: true }]
+		'no-tabs': ['error', { allowIndentationTabs: true }],
+		'no-unused-vars': 'off',
+		'no-mixed-spaces-and-tabs': 'off'
 	}
 }

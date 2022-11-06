@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
-import QualitiesList from '../ui/quaities/qualitiesList'
+import { useHistory, useParams, Link } from 'react-router-dom'
 
-import API from '../../API'
+import API from '../../../API'
+import Qualitiess from '../../ui/quaities'
 
 const UserPage = () => {
 	const history = useHistory()
@@ -10,11 +10,8 @@ const UserPage = () => {
 	useEffect(() => {
 		API.users.getById(userId).then(date => setUser(date))
 	}, [])
+	useEffect(() => {}, [user])
 	const { userId } = useParams()
-
-	const handelReturn = params => {
-		history.push('/user')
-	}
 
 	return (
 		<>
@@ -22,12 +19,14 @@ const UserPage = () => {
 				<>
 					<h1 className="m-2 mt-3">{user.name}</h1>
 					<h2 className="m-2 mt-3">Проффессия: {user.profession.name}</h2>
-					<QualitiesList qualities={user.qualities} />
-					<h2 className="m-2 mt-3">CompletedMeetings: {user.completedMeetings}</h2>
+					<Qualitiess qualities={user.qualities} />
+					<h2 className="m-2 mt-3">
+						CompletedMeetings: {user.completedMeetings}
+					</h2>
 					<h2 className="m-2 mt-3">Rate: {user.rate}</h2>
-					<button className="btn btn-dark m-2" onClick={handelReturn}>
-						Все пользователи
-					</button>
+					<Link to={`/user/${userId}/edit`}>
+						<button className="btn btn-dark m-2">Go ro edit</button>
+					</Link>
 				</>
 			) : (
 				'Loading...'
