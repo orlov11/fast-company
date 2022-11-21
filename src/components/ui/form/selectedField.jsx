@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 const SelectedField = ({
@@ -13,9 +13,9 @@ const SelectedField = ({
 	const inputControl = () => {
 		return 'form-control' + (error ? ' is-invalid' : '')
 	}
-	const handleChange = ({ target }) => {
+	const handleChange = useCallback(({ target }) => {
 		onChange({ name: target.name, value: target.value })
-	}
+	}, [])
 	const optionsArray =
 		!Array.isArray(option) && typeof options === 'object'
 			? Object.values(option)
@@ -55,4 +55,4 @@ SelectedField.propTypes = {
 	name: PropTypes.string
 }
 
-export default SelectedField
+export default React.memo(SelectedField)

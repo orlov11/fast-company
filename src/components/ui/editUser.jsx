@@ -98,6 +98,13 @@ const EditUser = () => {
 			{user ? (
 				<>
 					<div className="container mt-5">
+						<buttonс
+							className="btn btn-primary"
+							onClick={() => {
+								history.push(`/user/${userId}`)
+							}}>
+							Назад
+						</buttonс>
 						<div className="row">
 							<div className="col-md-6 offset-md-3 shadow p-4">
 								<form onSubmit={handleSubmit}>
