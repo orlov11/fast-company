@@ -7,6 +7,16 @@ import AddFormComments from './addFormComments'
 const CommentPage = () => {
 	const { userId } = useParams()
 	const [userComments, setUserComments] = useState()
+	const update = () => {
+		API.comments.fetchCommentsForUser(userId).then(date => {
+			const sort = date.slice(0)
+			setUserComments(
+				sort.sort(function (a, b) {
+					return b.created_at - a.created_at
+				})
+			)
+		})
+	}
 
 	useEffect(() => {
 		API.comments.fetchCommentsForUser(userId).then(date => {
@@ -18,17 +28,6 @@ const CommentPage = () => {
 			)
 		})
 	}, [])
-
-	const update = () => {
-		API.comments.fetchCommentsForUser(userId).then(date => {
-			const sort = date.slice(0)
-			setUserComments(
-				sort.sort(function (a, b) {
-					return b.created_at - a.created_at
-				})
-			)
-		})
-	}
 
 	return (
 		<>

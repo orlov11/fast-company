@@ -5,14 +5,15 @@ import transformDate from '../../utils/transformDate'
 
 const Comments = ({ userId, dateComments, id, content, update }) => {
 	const [user, setUser] = useState()
-	useEffect(() => {
-		API.users.getById(userId).then(date => setUser(date))
-	}, [])
 	const dateComment = Number(dateComments)
 	const handleDelete = () => {
 		API.comments.remove(id)
 		update()
 	}
+
+	useEffect(() => {
+		API.users.getById(userId).then(date => setUser(date))
+	}, [])
 
 	return (
 		<>

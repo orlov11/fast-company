@@ -8,7 +8,6 @@ import CommentPage from '../../ui/CommentPage'
 
 const UserPage = () => {
 	const history = useHistory()
-
 	const [user, setUser] = useState()
 
 	useEffect(() => {
