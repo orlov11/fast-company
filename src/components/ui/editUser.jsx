@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import TextField from './form/textField'
-import API from '../../API'
-import SelectedField from './form/selectedField'
-import RadioField from './form/radioField'
-import MultiSelectField from './form/multeSelectField'
-import { useParams, useHistory } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 
-const EditUser = () => {
+import API from '../../API'
+
+import FormComponent, {
+	TextField,
+	SelectedField,
+	MultiSelectField,
+	RadioField
+} from './form'
+
+const EditUserPage = () => {
 	const history = useHistory()
 	const [user, setUser] = useState()
 	const [data, setData] = useState({
@@ -111,8 +115,8 @@ const EditUser = () => {
 									<TextField
 										label="Name"
 										name="name"
-										target
 										value={data.name}
+										target
 										onChange={handleChange}
 									/>
 									<TextField
@@ -162,4 +166,4 @@ const EditUser = () => {
 	)
 }
 
-export default EditUser
+export default EditUserPage

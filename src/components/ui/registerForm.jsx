@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import TextField from './form/textField'
 import { validator } from '../../utils/validator'
 import API from '../../API'
-import SelectedField from './form/selectedField'
 import RadioField from './form/radioField'
 import MultiSelectField from './form/multeSelectField'
 import CheckBoxField from './form/checkBoxField'
+import FormComponent, { TextField, SelectedField } from './form'
 
 const RegisterForm = () => {
 	const [data, setData] = useState({
@@ -112,7 +111,7 @@ const RegisterForm = () => {
 		return qualitiesArray
 	}
 	return (
-		<form onSubmit={handleSubmit}>
+		<FormComponent onSubmit={handleSubmit}>
 			<TextField
 				label="Email"
 				name="email"
@@ -166,7 +165,7 @@ const RegisterForm = () => {
 			<button className="btn btn-dark w-100 mx-auto" disabled={!isValid}>
 				Find company!
 			</button>
-		</form>
+		</FormComponent>
 	)
 }
 

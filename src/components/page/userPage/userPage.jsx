@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
-
+import { SelectedField } from '../../ui/form'
+import { validator } from '../../../utils/validator'
 import API from '../../../API'
 import Comments from '../../common/comments'
-import SelectedField from '../../ui/form/selectedField'
 import TextArea from '../../ui/form/textArea'
 import Qualitiess from '../../ui/quaities'
 
@@ -17,6 +17,7 @@ const UserPage = () => {
 	const [user, setUser] = useState()
 	const [userAll, setUserAll] = useState()
 	const [userComments, setUserComments] = useState()
+	const [errors, setErrors] = useState({})
 
 	useEffect(() => {
 		API.users.getById(userId).then(date => setUser(date))
@@ -35,6 +36,24 @@ const UserPage = () => {
 			setUserAll(userList)
 		})
 	}, [])
+	const validatorCofig = {
+		content: {
+			isRequired: { messege: 'Поле сообщение обязательно для заполнения' }
+		},
+		userId: {
+			isRequired: { messege: 'Выберите кто оставляет комментарий' }
+		}
+	}
+	useEffect(() => {
+		validate()
+	}, [data])
+
+	const validate = () => {
+		const errors = validator(data, validatorCofig)
+		setErrors(errors)
+		return Object.keys(errors).length === 0
+	}
+	const isValid = Object.keys(errors).length === 0
 
 	useEffect(() => {
 		API.comments.fetchCommentsForUser(userId).then(date => {
@@ -66,6 +85,7 @@ const UserPage = () => {
 
 	const handleSubmit = e => {
 		e.preventDefault()
+		if (!validate()) return false
 		API.comments.add({
 			...data,
 			pageId: userId
@@ -157,6 +177,7 @@ const UserPage = () => {
 														name="userId"
 														defeaultOption="Choose user"
 														option={userAll}
+														error={errors.userId}
 													/>
 												)}
 
@@ -165,8 +186,11 @@ const UserPage = () => {
 													onChange={handleChange}
 													label="Сообщение"
 													name="content"
+													error={errors.content}
 												/>
-												<button className="btn btn-primary">
+												<button
+													disabled={!isValid}
+													className="btn btn-primary">
 													Опубликовать
 												</button>
 											</form>
@@ -186,7 +210,6 @@ const UserPage = () => {
 													userId={item.userId}
 													dateComments={item.created_at}
 													id={item._id}
-													onClick={update}
 													key={item._id}
 													content={item.content}
 												/>
