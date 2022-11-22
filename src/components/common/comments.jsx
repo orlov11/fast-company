@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import API from '../../API'
 import transformDate from '../../utils/transformDate'
 
-const Comments = ({ userId, dateComments, id, content, onClick }) => {
+const Comments = ({ userId, dateComments, id, content, update }) => {
 	const [user, setUser] = useState()
 	useEffect(() => {
 		API.users.getById(userId).then(date => setUser(date))
@@ -11,7 +11,7 @@ const Comments = ({ userId, dateComments, id, content, onClick }) => {
 	const dateComment = Number(dateComments)
 	const handleDelete = () => {
 		API.comments.remove(id)
-		onClick()
+		update()
 	}
 
 	return (
@@ -62,7 +62,7 @@ Comments.propTypes = {
 	id: PropTypes.string,
 	userId: PropTypes.string,
 	dateComments: PropTypes.number,
-	onClick: PropTypes.func,
+	update: PropTypes.func,
 	content: PropTypes.string
 }
 export default Comments
