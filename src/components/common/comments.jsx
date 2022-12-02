@@ -6,20 +6,27 @@ import transformDate from '../../utils/transformDate'
 const Comments = ({ userId, dateComments, id, content, update }) => {
 	const [user, setUser] = useState()
 	const dateComment = Number(dateComments)
+	const [isLoading, setIsLoading] = useState(true)
+
 	const handleDelete = () => {
 		API.comments.remove(id)
 		update()
 	}
 
 	useEffect(() => {
-		API.users.getById(userId).then(date => setUser(date))
+		API.users.getById(userId).then(date => {
+			setUser(date)
+			setIsLoading(false)
+		})
 	}, [])
 
 	return (
 		<>
-			{user && (
-				<div key={id} className="bg-light card-body  mb-3">
-					<div className="row">
+			<div key={id} className="bg-light card-body  mb-3">
+				<div className="row">
+					{isLoading ? (
+						'Loading'
+					) : (
 						<div className="col">
 							<div className="d-flex flex-start ">
 								<img
@@ -53,9 +60,9 @@ const Comments = ({ userId, dateComments, id, content, update }) => {
 								</div>
 							</div>
 						</div>
-					</div>
+					)}
 				</div>
-			)}
+			</div>
 		</>
 	)
 }

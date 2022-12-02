@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import Comments from '../common/comments'
 import { useParams } from 'react-router-dom'
 import API from '../../API'
@@ -7,6 +7,7 @@ import AddFormComments from './addFormComments'
 const CommentPage = () => {
 	const { userId } = useParams()
 	const [userComments, setUserComments] = useState()
+
 	const update = () => {
 		API.comments.fetchCommentsForUser(userId).then(date => {
 			const sort = date.slice(0)
@@ -31,14 +32,15 @@ const CommentPage = () => {
 
 	return (
 		<>
-			<div className="card mb-2"></div>
+			<div className="card mb-2">
+				<AddFormComments update={update} />
+			</div>
 
 			{userComments && (
 				<div className="card mb-3">
 					<div className="card-body ">
-						<AddFormComments update={update} />
-						<hr />
 						<h2>Comments</h2>
+						<hr />
 						{userComments &&
 							userComments.map(item => (
 								<Comments

@@ -24,10 +24,12 @@ const AddFormComments = ({ update }) => {
 	}
 	const handleChange = target => {
 		setData(prevState => ({ ...prevState, [target.name]: target.value }))
-		console.log(data)
+		validate()
 	}
 	const validate = () => {
 		const errors = validator(data, validatorCofig)
+		console.log(errors)
+
 		setErrors(errors)
 		return Object.keys(errors).length === 0
 	}
@@ -56,18 +58,14 @@ const AddFormComments = ({ update }) => {
 		})
 	}, [])
 
-	useEffect(() => {
-		validate()
-	}, [data])
-
 	return (
 		<>
-			<div className="card-body">
-				<div>
-					<h2>New comment</h2>
-					<div className="mb-4">
-						<form onSubmit={handleSubmit}>
-							{userAll && (
+			{userAll && (
+				<div className="card-body">
+					<div>
+						<h2>New comment</h2>
+						<div className="mb-4">
+							<form onSubmit={handleSubmit}>
 								<SelectedField
 									label="User Name"
 									value={data.userId}
@@ -77,22 +75,22 @@ const AddFormComments = ({ update }) => {
 									option={userAll}
 									error={errors.userId}
 								/>
-							)}
 
-							<TextArea
-								value={data.content}
-								onChange={handleChange}
-								label="Сообщение"
-								name="content"
-								error={errors.content}
-							/>
-							<button disabled={!isValid} className="btn btn-primary">
-								Опубликовать
-							</button>
-						</form>
+								<TextArea
+									value={data.content}
+									onChange={handleChange}
+									label="Сообщение"
+									name="content"
+									error={errors.content}
+								/>
+								<button className="btn btn-primary">
+									Опубликовать
+								</button>
+							</form>
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
 		</>
 	)
 }
