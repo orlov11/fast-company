@@ -50,8 +50,8 @@ export const QualityProvider = ({ children }) => {
 }
 
 QualityProvider.propTypes = {
-	children: PropTypes.oneOfType(
+	children: PropTypes.oneOfType([
 		PropTypes.arrayOf(PropTypes.node),
 		PropTypes.node
-	)
+	])
 }

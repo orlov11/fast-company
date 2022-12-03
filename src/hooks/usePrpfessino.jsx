@@ -51,8 +51,8 @@ export const ProfessionProvider = ({ children }) => {
 }
 
 ProfessionProvider.propTypes = {
-	children: PropTypes.oneOfType(
+	children: PropTypes.oneOfType([
 		PropTypes.arrayOf(PropTypes.node),
 		PropTypes.node
-	)
+	])
 }
