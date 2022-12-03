@@ -4,20 +4,28 @@ import Main from './layouts/main'
 import Login from './layouts/login'
 import NavBar from './components/ui/navBar'
 import UserPage from './components/page/userPage'
-import { Route, Switch } from 'react-router-dom'
 import EditUser from './components/ui/editUser'
+import { Route, Switch } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import { ProfessionProvider } from './hooks/usePrpfessino'
+import { QualityProvider } from './hooks/useQuality'
 
 function App() {
 	return (
 		<div>
 			<NavBar />
-			<Switch>
-				<Route exact path="/" component={Main} />
-				<Route path="/login/:type?" component={Login} />
-				<Route path="/userPage" component={UserPage} />
-				<Route path="/user/:userId?/edit" component={EditUser} />
-				<Route path="/user/:userId?" component={Users} />
-			</Switch>
+			<QualityProvider>
+				<ProfessionProvider>
+					<Switch>
+						<Route exact path="/" component={Main} />
+						<Route path="/login/:type?" component={Login} />
+						<Route path="/userPage" component={UserPage} />
+						<Route path="/user/:userId?/edit" component={EditUser} />
+						<Route path="/user/:userId?" component={Users} />
+					</Switch>
+				</ProfessionProvider>
+			</QualityProvider>
+			<ToastContainer />
 		</div>
 	)
 }

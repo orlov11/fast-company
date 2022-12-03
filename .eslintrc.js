@@ -20,8 +20,10 @@ module.exports = {
 			{ anonymous: 'always', named: 'never' }
 		],
 		'multiline-ternary': 'off',
-		'no-tabs': ['error', { allowIndentationTabs: true }],
+		'no-tabs': 'off',
 		'no-unused-vars': 'off',
-		'no-mixed-spaces-and-tabs': 'off'
+		'no-mixed-spaces-and-tabs': 'off',
+		'no-unused-expressions': 'off',
+		'no-labels': 'off'
 	}
 }

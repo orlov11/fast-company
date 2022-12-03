@@ -24,7 +24,6 @@ const AddFormComments = ({ update }) => {
 	}
 	const handleChange = target => {
 		setData(prevState => ({ ...prevState, [target.name]: target.value }))
-		validate()
 	}
 	const validate = () => {
 		const errors = validator(data, validatorCofig)
@@ -33,7 +32,6 @@ const AddFormComments = ({ update }) => {
 		setErrors(errors)
 		return Object.keys(errors).length === 0
 	}
-	const isValid = Object.keys(errors).length === 0
 	const handleSubmit = e => {
 		e.preventDefault()
 		if (!validate()) return false

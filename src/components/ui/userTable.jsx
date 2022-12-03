@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Bookmark from '../common/bookmarks'
 import Table from '../common/table'
 import Quaities from './quaities'
+import Profession from './profession'
 
 const UserTable = ({ user, onDelete, onBookmark, onSort, selectedSort }) => {
 	const columns = {
@@ -12,8 +13,8 @@ const UserTable = ({ user, onDelete, onBookmark, onSort, selectedSort }) => {
 			component: user => <Quaities qualities={user.qualities} />
 		},
 		profession: {
-			path: 'profession.name',
-			name: 'Проффесия'
+			name: 'Проффесия',
+			component: user => <Profession id={user.profession} />
 		},
 		completedMeetings: { path: 'completedMeetings', name: 'Встретился раз' },
 		rate: { path: 'rate', name: 'Рейтинг' },
@@ -21,7 +22,11 @@ const UserTable = ({ user, onDelete, onBookmark, onSort, selectedSort }) => {
 			path: 'bookmark',
 			name: 'Избранное',
 			component: user => (
-				<Bookmark status={user.status} id={user._id} onBookmark={onBookmark} />
+				<Bookmark
+					status={user.status}
+					id={user._id}
+					onBookmark={onBookmark}
+				/>
 			)
 		},
 		delete: {
