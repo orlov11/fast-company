@@ -28,6 +28,7 @@ export function validator(data, config) {
 		}
 		if (statusValidate) return config.messege
 	}
+
 	for (const feildName in data) {
 		for (const validateMethod in config[feildName]) {
 			const error = validate(

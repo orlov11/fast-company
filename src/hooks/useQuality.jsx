@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
-import qualityServices from '../services/qualitysService'
+import qualitiesService from '../services/qualitiesService'
 
 const QualityContext = React.createContext()
 export const useQuality = () => {
@@ -9,28 +9,21 @@ export const useQuality = () => {
 }
 
 export const QualityProvider = ({ children }) => {
-	const [qualitys, setQualitys] = useState([])
+	const [qualities, setQualities] = useState([])
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(null)
 	useEffect(() => {
-		getQualitysList()
+		getQualitiesList()
 	}, [])
 
-	useEffect(() => {
-		if (error !== null) {
-			toast.error(error)
-			setError(null)
-		}
-	}, [error])
-
-	function getQualitys(id) {
-		return qualitys.find(p => p._id === id)
+	function getQualities(id) {
+		return qualities.find(p => p._id === id)
 	}
 
-	async function getQualitysList() {
+	async function getQualitiesList() {
 		try {
-			const { content } = await qualityServices.get()
-			setQualitys(content)
+			const { content } = await qualitiesService.get()
+			setQualities(content)
 			setLoading(false)
 		} catch (error) {
 			errorCatcher(error)
@@ -41,9 +34,15 @@ export const QualityProvider = ({ children }) => {
 		const { message } = error.response.data
 		setError(message)
 	}
+	useEffect(() => {
+		if (error !== null) {
+			toast.error(error)
+			setError(null)
+		}
+	}, [error])
 
 	return (
-		<QualityContext.Provider value={{ qualitys, loading, getQualitys }}>
+		<QualityContext.Provider value={{ qualities, loading, getQualities }}>
 			{children}
 		</QualityContext.Provider>
 	)

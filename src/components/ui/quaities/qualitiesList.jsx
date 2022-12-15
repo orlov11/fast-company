@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { useQuality } from '../../../hooks/useQuality'
 
 const QualitiesList = ({ qualities }) => {
-	const { loading, getQualitys } = useQuality()
+	const { loading, getQualities } = useQuality()
 	const quali = qualities.map(item => {
-		return getQualitys(item)
+		return getQualities(item)
 	})
 	if (!loading) {
 		return (

@@ -9,22 +9,27 @@ import { Route, Switch } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { ProfessionProvider } from './hooks/usePrpfessino'
 import { QualityProvider } from './hooks/useQuality'
+import AuthProvider from './hooks/useAuth'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
 	return (
 		<div>
-			<NavBar />
-			<QualityProvider>
-				<ProfessionProvider>
-					<Switch>
-						<Route exact path="/" component={Main} />
-						<Route path="/login/:type?" component={Login} />
-						<Route path="/userPage" component={UserPage} />
-						<Route path="/user/:userId?/edit" component={EditUser} />
-						<Route path="/user/:userId?" component={Users} />
-					</Switch>
-				</ProfessionProvider>
-			</QualityProvider>
+			<AuthProvider>
+				<NavBar />
+				<QualityProvider>
+					<ProfessionProvider>
+						<Switch>
+							<Route exact path="/" component={Main} />
+							<Route path="/login/:type?" component={Login} />
+							<Route path="/userPage" component={UserPage} />
+							<Route path="/user/:userId?/edit" component={EditUser} />
+							<Route path="/user/:userId?" component={Users} />
+						</Switch>
+					</ProfessionProvider>
+				</QualityProvider>
+			</AuthProvider>
 			<ToastContainer />
 		</div>
 	)

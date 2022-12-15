@@ -1,44 +1,40 @@
 import React, { useState, useEffect } from 'react'
 import { validator } from '../../utils/validator'
-import API from '../../API'
 import RadioField from './form/radioField'
 import MultiSelectField from './form/multeSelectField'
 import CheckBoxField from './form/checkBoxField'
 import FormComponent, { TextField, SelectedField } from './form'
+import { useQuality } from '../../hooks/useQuality'
+import { useProfession } from '../../hooks/usePrpfessino'
+import { useAuth } from '../../hooks/useAuth'
+import { useHistory } from 'react-router-dom'
 
 const RegisterForm = () => {
+	const history = useHistory()
 	const [data, setData] = useState({
 		email: '',
 		password: '',
-		professions: '',
+		profession: '',
 		sex: 'male',
 		qualities: [],
 		licence: false
 	})
 	const [errors, setErrors] = useState({})
-	const [profession, setProfession] = useState()
-	const [qualities, setQualities] = useState([])
+	const { signUp } = useAuth()
+	const { profession } = useProfession()
+	const { qualities } = useQuality()
+	const professionsList = profession.map(item => ({
+		label: item.name,
+		value: item._id
+	}))
+	const qualitiesList = qualities.map(item => ({
+		label: item.name,
+		value: item._id
+	}))
+
 	const handleChange = target => {
 		setData(prevState => ({ ...prevState, [target.name]: target.value }))
 	}
-
-	useEffect(() => {
-		API.professions.fetchAll().then(data => {
-			const professionsList = Object.keys(data).map(professionName => ({
-				label: data[professionName].name,
-				value: data[professionName]._id
-			}))
-			setProfession(professionsList)
-		})
-		API.qualities.fetchAll().then(data => {
-			const qualitiesList = Object.keys(data).map(optionName => ({
-				label: data[optionName].name,
-				value: data[optionName]._id,
-				color: data[optionName].color
-			}))
-			setQualities(qualitiesList)
-		})
-	}, [])
 
 	const validatorCofig = {
 		email: {
@@ -56,7 +52,7 @@ const RegisterForm = () => {
 				value: 8
 			}
 		},
-		professions: {
+		profession: {
 			isRequired: { messege: 'Выберите вашу  проффессию' }
 		},
 		licence: {
@@ -77,15 +73,17 @@ const RegisterForm = () => {
 	}
 	const isValid = Object.keys(errors).length === 0
 
-	const handleSubmit = e => {
+	const handleSubmit = async e => {
 		e.preventDefault()
 		if (!validate()) return false
-		const { professions, qualities } = data
-		console.log({
-			...data,
-			professions: getProfessionById(professions),
-			qualities: getQualities(qualities)
-		})
+		const { profession, qualities } = data
+		const newData = { ...data, qualities: data.qualities.map(q => q.value) }
+		try {
+			await signUp(newData)
+			history.push('/')
+		} catch (error) {
+			setErrors(error)
+		}
 	}
 
 	const getProfessionById = id => {
@@ -111,7 +109,7 @@ const RegisterForm = () => {
 		return qualitiesArray
 	}
 	return (
-		<FormComponent onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit}>
 			<TextField
 				label="Email"
 				name="email"
@@ -130,12 +128,12 @@ const RegisterForm = () => {
 			/>
 			<SelectedField
 				label="Profession"
-				value={data.professions}
+				value={data.profession}
 				onChange={handleChange}
-				name="professions"
+				name="profession"
 				defeaultOption="Choose you profession"
-				option={profession}
-				error={errors.professions}
+				option={professionsList}
+				error={errors.profession}
 			/>
 			<RadioField
 				option={[
@@ -149,7 +147,7 @@ const RegisterForm = () => {
 				label="Choose your gender"
 			/>
 			<MultiSelectField
-				option={qualities}
+				option={qualitiesList}
 				name="qualities"
 				onChange={handleChange}
 				label="Choose your qualities"
@@ -165,7 +163,7 @@ const RegisterForm = () => {
 			<button className="btn btn-dark w-100 mx-auto" disabled={!isValid}>
 				Find company!
 			</button>
-		</FormComponent>
+		</form>
 	)
 }
 
