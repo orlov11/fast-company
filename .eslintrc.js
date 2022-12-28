@@ -14,7 +14,11 @@ module.exports = {
 	plugins: ['react'],
 	rules: {
 		indent: 'off',
-		quotes: ['error', 'single', { allowTemplateLiterals: true }],
+		quotes: [
+			'error',
+			'single',
+			{ allowTemplateLiterals: true, avoidEscape: true }
+		],
 		'space-before-function-paren': [
 			'error',
 			{ anonymous: 'always', named: 'never' }

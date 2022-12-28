@@ -13,6 +13,7 @@ const RegisterForm = () => {
 	const history = useHistory()
 	const [data, setData] = useState({
 		email: '',
+		name: '',
 		password: '',
 		profession: '',
 		sex: 'male',
@@ -40,6 +41,13 @@ const RegisterForm = () => {
 		email: {
 			isRequired: { messege: 'Поле Email обязательно для заполнения' },
 			isEmail: { messege: 'Email введен некорректно' }
+		},
+		name: {
+			isRequired: { messege: 'Поле Name обязательно для заполнения' },
+			isLength: {
+				messege: 'Имя должен быть длиннее 3-ех символов',
+				value: 3
+			}
 		},
 		password: {
 			isRequired: { messege: 'Поле Password обязательно для заполнения' },
@@ -110,6 +118,13 @@ const RegisterForm = () => {
 	}
 	return (
 		<form onSubmit={handleSubmit}>
+			<TextField
+				label="Name"
+				name="name"
+				value={data.name}
+				onChange={handleChange}
+				error={errors.name}
+			/>
 			<TextField
 				label="Email"
 				name="email"

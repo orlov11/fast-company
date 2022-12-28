@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 const TextArea = ({ value, onChange, name, label, error }) => {
 	const handleChange = ({ target }) => {
 		onChange({ name: target.name, value: target.value })
-		console.log({ name: target.name, value: target.value })
 	}
 	const getInputClasses = () => {
 		return 'form-control' + (error ? ' is-invalid' : '')

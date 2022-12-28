@@ -1,66 +1,57 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import API from '../../API'
 import transformDate from '../../utils/transformDate'
+import { useUsers } from '../../hooks/useUsers'
+import { useComments } from '../../hooks/useComments'
+import { useAuth } from '../../hooks/useAuth'
 
-const Comments = ({ userId, dateComments, id, content, update }) => {
-	const [user, setUser] = useState()
+const Comments = ({ userId, dateComments, id, content, pageId }) => {
+	const { getUserbyId } = useUsers()
+	const user = getUserbyId(userId)
+	const { currentUser } = useAuth()
 	const dateComment = Number(dateComments)
 	const [isLoading, setIsLoading] = useState(true)
+	const { removeComment } = useComments()
 
-	const handleDelete = () => {
-		API.comments.remove(id)
-		update()
+	const handleDelete = id => {
+		removeComment(id)
 	}
-
-	useEffect(() => {
-		API.users.getById(userId).then(date => {
-			setUser(date)
-			setIsLoading(false)
-		})
-	}, [])
 
 	return (
 		<>
 			<div key={id} className="bg-light card-body  mb-3">
 				<div className="row">
-					{isLoading ? (
-						'Loading'
-					) : (
-						<div className="col">
-							<div className="d-flex flex-start ">
-								<img
-									src={`https://avatars.dicebear.com/api/avataaars/${(
-										Math.random() + 1
-									)
-										.toString(36)
-										.substring(7)}.svg`}
-									className="rounded-circle shadow-1-strong me-3"
-									alt="avatar"
-									width="65"
-									height="65"
-								/>
-								<div className="flex-grow-1 flex-shrink-1">
-									<div className="mb-4">
-										<div className="d-flex justify-content-between align-items-center">
-											<p className="mb-1 ">
-												{user.name}
-												<span className="small">
-													- {transformDate(dateComment)}
-												</span>
-											</p>
+					<div className="col">
+						<div className="d-flex flex-start ">
+							<img
+								src={user.image}
+								className="rounded-circle shadow-1-strong me-3"
+								alt="avatar"
+								width="65"
+								height="65"
+							/>
+							<div className="flex-grow-1 flex-shrink-1">
+								<div className="mb-4">
+									<div className="d-flex justify-content-between align-items-center">
+										<p className="mb-1 ">
+											{user.name}
+											<span className="small">
+												- {transformDate(dateComment)}
+											</span>
+										</p>
+										{currentUser._id === userId && (
 											<button
 												className="btn btn-sm text-primary d-flex align-items-center"
-												onClick={handleDelete}>
+												onClick={() => handleDelete(id)}>
 												<i className="bi bi-x-lg"></i>
 											</button>
-										</div>
-										<p className="small mb-0">{content}</p>
+										)}
 									</div>
+									<p className="small mb-0">{content}</p>
 								</div>
 							</div>
 						</div>
-					)}
+					</div>
 				</div>
 			</div>
 		</>
@@ -69,8 +60,8 @@ const Comments = ({ userId, dateComments, id, content, update }) => {
 Comments.propTypes = {
 	id: PropTypes.string,
 	userId: PropTypes.string,
+	pageId: PropTypes.string,
 	dateComments: PropTypes.number,
-	update: PropTypes.func,
 	content: PropTypes.string
 }
 export default Comments

@@ -8,7 +8,6 @@ const MultiSelectField = ({ option, name, onChange, label, value }) => {
 			? Object.values(option)
 			: option
 	const handleChange = value => {
-		console.log(name, value)
 		onChange({ name, value })
 	}
 	return (

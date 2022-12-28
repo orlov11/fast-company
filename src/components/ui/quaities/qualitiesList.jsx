@@ -2,6 +2,7 @@ import React from 'react'
 import Quaities from './quaities'
 import PropTypes from 'prop-types'
 import { useQuality } from '../../../hooks/useQuality'
+import Loader from '../../common/Loader'
 
 const QualitiesList = ({ qualities }) => {
 	const { loading, getQualities } = useQuality()
@@ -17,7 +18,7 @@ const QualitiesList = ({ qualities }) => {
 			</>
 		)
 	} else {
-		return 'Loading...'
+		return <Loader />
 	}
 }
 QualitiesList.propTypes = {

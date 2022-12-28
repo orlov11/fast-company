@@ -1,20 +1,18 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
-import API from '../../../API'
 import UserCard from '../../ui/userCard'
 import QualitiesCard from '../../ui/qualitiesCard'
 import MeetingsCard from '../../ui/meetingsCard'
 import CommentPage from '../../ui/CommentPage'
+import Loader from '../../common/Loader'
+import { useUsers } from '../../../hooks/useUsers'
+import { CommentsProvider } from '../../../hooks/useComments'
 
 const UserPage = () => {
 	const history = useHistory()
-	const [user, setUser] = useState()
-
-	useEffect(() => {
-		API.users.getById(userId).then(date => setUser(date))
-	}, [])
-
+	const { getUserbyId } = useUsers()
 	const { userId } = useParams()
+	const user = getUserbyId(userId)
 
 	return (
 		<>
@@ -27,12 +25,14 @@ const UserPage = () => {
 							<MeetingsCard value={user.completedMeetings} />
 						</div>
 						<div className="col-md-8">
-							<CommentPage />
+							<CommentsProvider>
+								<CommentPage />
+							</CommentsProvider>
 						</div>
 					</div>
 				</div>
 			) : (
-				'Loading...'
+				<Loader loading="Loading" />
 			)}
 		</>
 	)

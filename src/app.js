@@ -12,6 +12,8 @@ import { QualityProvider } from './hooks/useQuality'
 import AuthProvider from './hooks/useAuth'
 
 import 'react-toastify/dist/ReactToastify.css'
+import ProtectedRoute from './components/common/protectecRoute'
+import LogOut from './layouts/logOut'
 
 function App() {
 	return (
@@ -23,9 +25,11 @@ function App() {
 						<Switch>
 							<Route exact path="/" component={Main} />
 							<Route path="/login/:type?" component={Login} />
-							<Route path="/userPage" component={UserPage} />
-							<Route path="/user/:userId?/edit" component={EditUser} />
-							<Route path="/user/:userId?" component={Users} />
+							<ProtectedRoute
+								path="/user/:userId?/:edit?"
+								component={Users}
+							/>
+							<Route path="/logout" component={LogOut} />
 						</Switch>
 					</ProfessionProvider>
 				</QualityProvider>

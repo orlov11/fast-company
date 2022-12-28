@@ -1,4 +1,5 @@
 import React from 'react'
+import Loader from '../components/common/Loader'
 import useMockData from '../utils/mockData'
 
 const Main = () => {
@@ -10,6 +11,7 @@ const Main = () => {
 	return (
 		<div className="container mt-5">
 			<h1>Main Page</h1>
+
 			<h3>Иницализция данных в FaieBase</h3>
 			<ul>
 				<li>Status: {status}</li>

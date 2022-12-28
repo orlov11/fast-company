@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import API from '../../../API'
 import Pagination from '../../common/pagination'
 import { paginate } from '../../../utils/paginate'
 import TextField from '../../ui/form/textField'
@@ -10,11 +9,15 @@ import { useParams } from 'react-router-dom'
 import UserPage from '../userPage/userPage'
 import _ from 'lodash'
 import { useUsers } from '../../../hooks/useUsers'
+import Loader from '../../common/Loader'
+import { useProfession } from '../../../hooks/usePrpfessino'
+import { useAuth } from '../../../hooks/useAuth'
 
 const UserListPage = () => {
 	const { userId } = useParams()
+	const { currentUser } = useAuth()
 	const [search, setSearch] = useState('')
-	const [profession, setProfession] = useState()
+	const { profession, loading: professionLoadaing } = useProfession()
 	const [currentPage, setCurrentPage] = useState(1)
 	const [selectedProf, setSelectedProf] = useState()
 	const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
@@ -52,16 +55,6 @@ const UserListPage = () => {
 		setCurrentPage(1)
 	}, [selectedProf])
 
-	useEffect(() => {
-		API.professions.fetchAll().then(data => {
-			const professionsList = Object.keys(data).map(professionName => ({
-				name: data[professionName].name,
-				_id: data[professionName]._id
-			}))
-			setProfession(professionsList)
-		})
-	}, [])
-
 	const filterUser = () => {
 		if (selectedProf) {
 			return user.filter(user => _.isEqual(user.profession, selectedProf))
@@ -79,7 +72,7 @@ const UserListPage = () => {
 	}
 
 	if (user) {
-		const filterUsers = filterUser()
+		const filterUsers = filterUser().filter(u => u._id !== currentUser._id)
 		const count = filterUsers.length
 		const sortedUsers = _.orderBy(filterUsers, [sortBy.path], [sortBy.order])
 		const userCrop = paginate(sortedUsers, currentPage, pageSize)
@@ -99,7 +92,7 @@ const UserListPage = () => {
 					<UserPage />
 				) : (
 					<div className="d-flex ">
-						{profession && (
+						{profession && !professionLoadaing && (
 							<div className="d-flex flex-column flex-shrink-0 p-3">
 								<ListGroup
 									selectedItem={selectedProf}
@@ -145,7 +138,7 @@ const UserListPage = () => {
 			</>
 		)
 	}
-	return ' Loading...'
+	return <Loader loading="Loading" />
 }
 
 export default UserListPage

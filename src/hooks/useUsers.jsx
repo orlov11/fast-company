@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import userServices from '../services/userSerices'
 import { toast } from 'react-toastify'
+import Loader from '../components/common/Loader'
 
 const UserContext = React.createContext()
 export const useUsers = () => {
@@ -35,9 +36,13 @@ const UserProvider = ({ children }) => {
 		setError(message)
 	}
 
+	function getUserbyId(userId) {
+		return user.find(u => u._id === userId)
+	}
+
 	return (
-		<UserContext.Provider value={{ user }}>
-			{!loading ? children : 'Loading...'}
+		<UserContext.Provider value={{ user, getUserbyId }}>
+			{!loading ? children : <Loader />}
 		</UserContext.Provider>
 	)
 }

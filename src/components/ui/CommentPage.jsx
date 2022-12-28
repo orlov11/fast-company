@@ -1,57 +1,36 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Comments from '../common/comments'
-import { useParams } from 'react-router-dom'
-import API from '../../API'
 import AddFormComments from './addFormComments'
+import { useComments } from '../../hooks/useComments'
+import { orderBy } from 'lodash'
 
 const CommentPage = () => {
-	const { userId } = useParams()
-	const [userComments, setUserComments] = useState()
+	const { createComment, comments } = useComments()
 
-	const update = () => {
-		API.comments.fetchCommentsForUser(userId).then(date => {
-			const sort = date.slice(0)
-			setUserComments(
-				sort.sort(function (a, b) {
-					return b.created_at - a.created_at
-				})
-			)
-		})
+	const handleSubmit = data => {
+		createComment(data)
 	}
-
-	useEffect(() => {
-		API.comments.fetchCommentsForUser(userId).then(date => {
-			const sort = date.slice(0)
-			setUserComments(
-				sort.sort(function (a, b) {
-					return b.created_at - a.created_at
-				})
-			)
-		})
-	}, [])
-
+	const sortedComments = orderBy(comments, ['created_at'], ['desc'])
 	return (
 		<>
 			<div className="card mb-2">
-				<AddFormComments update={update} />
+				<AddFormComments onSubmit={handleSubmit} />
 			</div>
-
-			{userComments && (
+			{comments.length !== 0 && (
 				<div className="card mb-3">
 					<div className="card-body ">
 						<h2>Comments</h2>
 						<hr />
-						{userComments &&
-							userComments.map(item => (
-								<Comments
-									userId={item.userId}
-									dateComments={item.created_at}
-									id={item._id}
-									key={item._id}
-									content={item.content}
-									update={update}
-								/>
-							))}
+						{sortedComments.map(item => (
+							<Comments
+								userId={item.userId}
+								pageId={item.pageId}
+								dateComments={item.created_at}
+								id={item._id}
+								key={item._id}
+								content={item.content}
+							/>
+						))}
 					</div>
 				</div>
 			)}
